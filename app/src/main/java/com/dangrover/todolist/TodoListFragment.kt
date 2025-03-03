@@ -1,10 +1,12 @@
 package com.dangrover.todolist
 
+import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.*
@@ -39,6 +41,10 @@ class TodoListFragment : Fragment() {
     private fun refreshTodoList() {
         val todoDao = (db as TodoDatabase).todoDao()
         todos = todoDao.getAll()
+
+        // tell recyclerview to refresh
+        var adapter : TodoListAdapter? = binding.todorecycler.adapter as TodoListAdapter?
+        adapter?.setData(todos)
     }
 
 
@@ -50,18 +56,33 @@ class TodoListFragment : Fragment() {
             requireContext(),
             TodoDatabase::class.java, "todo-list"
         ).allowMainThreadQueries() // TODO turn this off and refactor code to use BG threads
-            .build()
+        .build()
 
         refreshTodoList()
 
         val recyclerView: RecyclerView = view.findViewById(R.id.todorecycler)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = TodoListAdapter(todos)
-
-        /*binding.buttonFirst.setOnClickListener {
-            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
-        }*/
     }
+
+    // Called from MainActivity when add button is pressed
+    public fun showAddTodoDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Add Todo")
+        val input : EditText = EditText(requireContext())
+        builder.setView(input)
+
+        builder.setPositiveButton("Create") { _, _ ->
+            val todoDao = (db as TodoDatabase).todoDao()
+            todoDao.insertAll(Todo(
+                itemName = input.text.toString(),
+                completed = false
+            ))
+            refreshTodoList()
+        }
+        builder.show()
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

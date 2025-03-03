@@ -2,23 +2,28 @@ package com.dangrover.todolist
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.LinearLayoutManager
 
-class TodoListAdapter(private val dataSet: List<Todo>) :
+class TodoListAdapter(private var dataSet: List<Todo>) :
     RecyclerView.Adapter<TodoListAdapter.ViewHolder>() {
 
-    /**
-     * Provide a reference to the type of views that you are using
-     * (custom ViewHolder)
-     */
+
+    fun setData(newDataSet: List<Todo>) {
+        dataSet = newDataSet
+        notifyDataSetChanged()
+    }
+
+    // Provide a reference to the views for each data item
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val textView: TextView
+        val statusButton: Button
 
         init {
-            // Define click listener for the ViewHolder's View
             textView = view.findViewById(R.id.textView)
+            statusButton = view.findViewById(R.id.item_status_button)
         }
     }
 

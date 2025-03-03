@@ -4,7 +4,7 @@ import java.util.Date
 
 @Entity
 data class Todo(
-    @PrimaryKey val todoId: Int,
+    @PrimaryKey(autoGenerate = true) val todoId: Int? = null,
     @ColumnInfo(name = "item_name") val itemName: String?,
     @ColumnInfo(name = "completed") val completed: Boolean?
 )

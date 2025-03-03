@@ -1,5 +1,6 @@
 package com.dangrover.todolist
 
+import android.app.AlertDialog
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
@@ -9,6 +10,10 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.EditText
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.fragment.app.Fragment
 import com.dangrover.todolist.databinding.ActivityMainBinding
 
 
@@ -22,23 +27,21 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         setSupportActionBar(binding.toolbar)
+
+        var todoListFragment : TodoListFragment? = supportFragmentManager.findFragmentById(R.id.todo_fragment_container) as TodoListFragment?
 
         /*
         val navController = findNavController(R.id.main_activity_coordinator_layout)
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
-         */
+        */
 
-        binding.addbutton.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null)
-                .setAnchorView(R.id.addbutton).show()
+
+        // add button action
+        binding.addbutton.setOnClickListener {
+            todoListFragment?.showAddTodoDialog()
         }
-
-
-
 
 
     }
@@ -58,5 +61,27 @@ class MainActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
+
+    /*
+    private fun showAddTodoDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Add Todo")
+        val input : View = EditText(requireContext())
+        builder.setView(input)
+
+        builder.setPositiveButton("Create") { _, _ ->
+            val todo = Todo(
+                itemName = input.text.toString(),
+                completed = false
+            )
+
+            val todoDao = (db as TodoDatabase).todoDao()
+            todoDao.insertAll(todo)
+            //  binding.todorecycler.adapter?.notifyDataSetChanged()
+        }
+
+        builder.show()
+    }
+     */
 
 }

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.*
 import com.dangrover.todolist.databinding.FragmentTodoListBinding
 
 /**
@@ -15,6 +16,9 @@ import com.dangrover.todolist.databinding.FragmentTodoListBinding
 class TodoListFragment : Fragment() {
 
     private var _binding: FragmentTodoListBinding? = null
+
+    private lateinit var db : RoomDatabase
+    private lateinit var todos : List<Todo>
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -31,16 +35,28 @@ class TodoListFragment : Fragment() {
 
     }
 
+    // helper function to refresh the todo list
+    private fun refreshTodoList() {
+        val todoDao = (db as TodoDatabase).todoDao()
+        todos = todoDao.getAll()
+    }
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val dataset = arrayOf("January", "February", "March")
-        val customAdapter = TodoListAdapter(dataset)
+        // load database
+        db = Room.databaseBuilder(
+            requireContext(),
+            TodoDatabase::class.java, "todo-list"
+        ).allowMainThreadQueries() // TODO turn this off and refactor code to use BG threads
+            .build()
 
+        refreshTodoList()
 
         val recyclerView: RecyclerView = view.findViewById(R.id.todorecycler)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        recyclerView.adapter = customAdapter
+        recyclerView.adapter = TodoListAdapter(todos)
 
         /*binding.buttonFirst.setOnClickListener {
             findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)

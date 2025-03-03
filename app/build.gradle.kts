@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("kotlin-kapt")
 }
 
 android {
@@ -53,7 +54,8 @@ dependencies {
 
     // Room persistence library
     implementation(libs.androidx.room.runtime)
-    //ksp(libs.androidx.room.compiler)
+    annotationProcessor(libs.androidx.room.compiler)
+    kapt("androidx.room:room-compiler:2.5.2")
     implementation(libs.androidx.room.ktx)
 
 

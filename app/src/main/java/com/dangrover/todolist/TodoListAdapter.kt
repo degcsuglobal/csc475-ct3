@@ -6,7 +6,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.LinearLayoutManager
 
-class TodoListAdapter(private val dataSet: Array<String>) :
+class TodoListAdapter(private val dataSet: List<Todo>) :
     RecyclerView.Adapter<TodoListAdapter.ViewHolder>() {
 
     /**
@@ -34,9 +34,8 @@ class TodoListAdapter(private val dataSet: Array<String>) :
     // Replace the contents of a view (invoked by the layout manager)
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
 
-        // Get element from your dataset at this position and replace the
-        // contents of the view with that element
-        viewHolder.textView.text = dataSet[position]
+        // Title
+        viewHolder.textView.text = dataSet[position].itemName
     }
 
     // Return the size of your dataset (invoked by the layout manager)

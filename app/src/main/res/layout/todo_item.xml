@@ -9,7 +9,7 @@
         android:id="@+id/item_status_button"
         style="@style/Widget.Material3.Button.IconButton"
         android:layout_width="@dimen/todo_item_checkbox_size"
-        android:layout_height="fill_parent"
+        android:layout_height="@dimen/todo_item_checkbox_size"
         android:background="#B3B3B3" />
 
     <TextView

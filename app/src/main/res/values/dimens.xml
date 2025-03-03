@@ -1,5 +1,5 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
-    <dimen name="todo_item_height">30dp</dimen>
+    <dimen name="todo_item_height">32dp</dimen>
     <dimen name="todo_item_checkbox_size">32dp</dimen>
 </resources>

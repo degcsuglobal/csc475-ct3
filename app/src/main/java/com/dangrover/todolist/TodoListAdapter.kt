@@ -49,7 +49,6 @@ class TodoListAdapter(private var dataSet: List<Todo>, private val fragment: Tod
         }
     }
 
-    // Return the size of your dataset (invoked by the layout manager)
     override fun getItemCount() = dataSet.size
 
 }

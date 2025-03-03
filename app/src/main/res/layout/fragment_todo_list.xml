@@ -2,11 +2,13 @@
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/todo_scrollview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".TodoListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/todorecycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 </androidx.core.widget.NestedScrollView>

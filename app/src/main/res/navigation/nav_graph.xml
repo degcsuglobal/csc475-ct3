@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/TodoListFragment">
 
     <fragment
-        android:id="@+id/FirstFragment"
+        android:id="@+id/TodoListFragment"
         android:name="com.dangrover.todolist.TodoListFragment"
-        android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_todo_list"/>
+        android:label="@string/todolist_fragment_label"
+        tools:layout="@layout/fragment_todo_list" />
 </navigation>

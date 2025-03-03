@@ -62,7 +62,7 @@ class TodoListFragment : Fragment() {
 
         val recyclerView: RecyclerView = view.findViewById(R.id.todorecycler)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        recyclerView.adapter = TodoListAdapter(todos)
+        recyclerView.adapter = TodoListAdapter(todos, this) // Keep a reference to the fragment so we can call stuff defined here
     }
 
     // Called from MainActivity when add button is pressed
@@ -81,6 +81,20 @@ class TodoListFragment : Fragment() {
             refreshTodoList()
         }
         builder.show()
+    }
+
+    public fun deleteTodo(todo: Todo){
+        println("deleteTodo: $todo")
+        val todoDao = (db as TodoDatabase).todoDao()
+        todoDao.deleteTodos(todo)
+        refreshTodoList()
+    }
+
+    // update todo checked status
+    public fun updateTodoChecked(todo: Todo, isChecked: Boolean){
+        println("updateTodoChecked: $todo $isChecked")
+        val todoDao = (db as TodoDatabase).todoDao()
+        todoDao.updateTodos(todo.copy(completed = isChecked))
     }
 
 

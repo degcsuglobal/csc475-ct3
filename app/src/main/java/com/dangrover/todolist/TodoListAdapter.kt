@@ -3,13 +3,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.TextView
+import android.widget.CheckBox
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.LinearLayoutManager
 
-class TodoListAdapter(private var dataSet: List<Todo>) :
+class TodoListAdapter(private var dataSet: List<Todo>, private val fragment: TodoListFragment) :
     RecyclerView.Adapter<TodoListAdapter.ViewHolder>() {
-
 
     fun setData(newDataSet: List<Todo>) {
         dataSet = newDataSet
@@ -18,12 +16,12 @@ class TodoListAdapter(private var dataSet: List<Todo>) :
 
     // Provide a reference to the views for each data item
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val textView: TextView
-        val statusButton: Button
+        val checkbox: CheckBox
+        val deleteButton: Button
 
         init {
-            textView = view.findViewById(R.id.textView)
-            statusButton = view.findViewById(R.id.item_status_button)
+            checkbox = view.findViewById(R.id.checkbox) as CheckBox
+            deleteButton = view.findViewById(R.id.deletebutton)
         }
     }
 
@@ -38,9 +36,17 @@ class TodoListAdapter(private var dataSet: List<Todo>) :
 
     // Replace the contents of a view (invoked by the layout manager)
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
+        viewHolder.checkbox.setText(dataSet[position].itemName) // Title
+        viewHolder.checkbox.setChecked(dataSet[position].completed == true) // Status
 
-        // Title
-        viewHolder.textView.text = dataSet[position].itemName
+        // set up click listeners for each button
+        viewHolder.deleteButton.setOnClickListener {
+            fragment.deleteTodo(dataSet[position])
+        }
+
+        viewHolder.checkbox.setOnCheckedChangeListener { _, isChecked ->
+            fragment.updateTodoChecked(dataSet[position], isChecked)
+        }
     }
 
     // Return the size of your dataset (invoked by the layout manager)
